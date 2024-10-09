@@ -1,30 +1,15 @@
 import React, { useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, CheckBox } from 'react-native';
 
-const data = [
-  { id: 1, label: 'Reforma do Piso', value: 800.00, checked: true },
-  { id: 2, label: 'Reforma da Cozinha', value: 900.00, checked: false },
-  { id: 3, label: 'Pintura Interna', value: 200.00, checked: true },
-  { id: 4, label: 'Reforma no Banheiro', value: 700.00, checked: true },
-  { id: 5, label: 'Instalação Elétrica', value: 500.00, checked: true },
-];
-
 const App = () => {
-  const [items, setItems] = useState(data);
+  const [items, setItems] = useState([
+    { id: 1, label: 'Reforma do Piso', value: 800.00, checked: true },
+    { id: 2, label: 'Reforma da Cozinha', value: 900.00, checked: false },
+    { id: 3, label: 'Pintura Interna', value: 200.00, checked: true },
+    { id: 4, label: 'Reforma no Banheiro', value: 700.00, checked: true },
+    { id: 5, label: 'Instalação Elétrica', value: 500.00, checked: true },
+  ]);
 
-  const toggleCheck = (id) => {
-    setItems(
-      items.map((item) =>
-        item.id === id ? { ...item, checked: !item.checked } : item
-      )
-    );
-  };
-
-  const calculateTotal = () => {
-    return items.reduce((total, item) => (item.checked ? total + item.value : total), 0);
-  };
-  
- 
   return (
     <View style={{ flex: 1, backgroundColor: '#B0C4DE' }}>
       <FlatList
@@ -32,13 +17,20 @@ const App = () => {
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}>
-            <CheckBox value={item.checked} onValueChange={() => toggleCheck(item.id)} />
+            <CheckBox
+              value={item.checked}
+              onValueChange={() => setItems((prev) =>
+                prev.map((i) => (i.id === item.id ? { ...i, checked: !i.checked } : i))
+              )}
+            />
             <Text>{item.label} R$ {item.value.toFixed(2)}</Text>
           </View>
         )}
       />
       <View style={{ alignItems: 'center', marginBottom: 20 }}>
-        <Text style={{ fontSize: 18 }}>Total: R$ {calculateTotal().toFixed(2)}</Text>
+        <Text style={{ fontSize: 18 }}>
+          Total: R$ {items.reduce((total, item) => (item.checked ? total + item.value : total), 0).toFixed(2)}
+        </Text>
         <TouchableOpacity style={{ backgroundColor: '#4CAF50', padding: 10, borderRadius: 5 }}>
           <Text style={{ color: 'white' }}>PAGAR</Text>
         </TouchableOpacity>
@@ -46,7 +38,5 @@ const App = () => {
     </View>
   );
 };
-  
-
 
 export default App;
