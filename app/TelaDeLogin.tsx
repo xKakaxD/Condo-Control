@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
 
   },
   label: {
+    padding:5,
     fontSize: 16,
     fontWeight: 'bold',
     alignSelf: 'flex-start',
@@ -84,6 +85,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#e0e0e0',
   },
   forgotPassword: {
+    width:100,
     alignSelf: 'flex-end',
     marginRight: '10%',
     color: '#007FFF',
