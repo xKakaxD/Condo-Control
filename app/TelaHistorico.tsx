@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
 
-export default function HistoricoPagamentos() {
+export default function TelaHistorico() {
   return (
     <View style={styles.container}>
       <Text style={styles.headerContainer}>HISTÓRICO DE PAGAMENTOS</Text>
@@ -246,14 +246,6 @@ const styles = StyleSheet.create({
   aVencer: {
     backgroundColor: '#D3D3E8',
   },
-  footerContainer: {
-    width: '100%',
-    backgroundColor: '#4071D1',
-    paddingVertical: 10,
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  
   statusPg:{
     fontWeight: 'bold',
     width: '100%',
@@ -263,6 +255,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 10,
     marginTop:40,
+  },
+
+  footerContainer: {
+    width: '100%',
+    backgroundColor: '#4071D1',
+    paddingVertical: 10,
+    alignItems: 'center',
+    marginBottom: 10,
   },
   
   buttonVoltar: {
