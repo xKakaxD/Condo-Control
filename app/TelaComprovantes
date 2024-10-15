@@ -1,0 +1,85 @@
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, FlatList } from 'react-native'; //npm install react-native-paper
+import * as DocumentPicker from 'expo-document-picker'; // esses precisa da extenção para rodar "npm install expo-document-picker" forma para poder anexar o pdf
+import PDFViewer from 'react-native-pdf'; // esses precisa da extenção para rodar "npm install react-native-pdf react-native-blob-util --save", no forma para ver o pdf 
+
+const ComprovanteScreen = () => {
+  const [name, setName] = useState('Luis Felipe Baeta Elias Soares');
+  const [months, setMonths] = useState<
+    { month: string; date: string; file: DocumentPicker.DocumentResult | null }[]
+  >([
+    { month: 'Janeiro', date: '10/01/2024', file: null},
+    { month: 'Fevereiro', date: '11/01/2024', file: null},
+    { month: 'Março', date: '12/01/2024', file: null},
+    { month: 'Abril', date: '13/01/2024', file: null},
+    { month: 'Maio', date: '14/01/2024', file: null},
+    { month: 'Junho', date: '15/01/2024', file: null},
+    { month: 'Julho', date: '16/01/2024', file: null},
+    { month: 'Agosto', date: '17/01/2024', file: null},
+    { month: 'Setembro', date: '18/01/2024', file: null},
+    { month: 'Outubro', date: '19/01/2024', file: null},
+    { month: 'Novembro', date: '20/01/2024', file: null},
+    { month: 'Dezembro', date: '21/01/2024', file: null},
+    //adiciona os meses aqui
+  ]);
+  
+
+  const pickDocument = async (monthIndex: number) => {
+    try {
+      const res = await DocumentPicker.getDocumentAsync({
+        type: 'application/pdf',
+        copyToCacheDirectory: false,
+      });
+  
+      // Verifique se a operação foi bem-sucedida
+      if (res && res.status === 'success') { // Use 'status' para verificar sucesso
+        setMonths((prevMonths) => {
+          const updatedMonths = [...prevMonths];
+          updatedMonths[monthIndex].file = res; // Atribui o documento selecionado
+          return updatedMonths;
+        });
+      } else {
+        console.log('Nenhum documento selecionado');
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  
+  const renderItem = ({ item, index }: { item: { month: string; date: string; file: DocumentPicker.DocumentResult | null }; index: number }) => (
+    <TouchableOpacity onPress={() => pickDocument(index)}>
+      <View>
+        <Text>{item.month}</Text>
+        <Text>{item.date}</Text>
+        {item.file && item.file.uri && ( // Verifique se item.file e item.file.uri existem
+          <PDFViewer source={{ uri: item.file.uri }} style={{ flex: 1 }} />
+        )}
+      </View>
+    </TouchableOpacity>
+  );
+  
+  
+
+  return (
+    <View style={{ flex: 1 }}>
+      {/*cabeçalho*/}
+      <View style={{ padding: 20 }}>
+        <Text>{name}</Text>
+        {/* para colocar outras datas */}
+      </View>
+
+      {/* corpo */}
+      <FlatList
+        data={months}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.month}
+      />
+
+      {/* botão voltar */}
+      <TouchableOpacity style={{ /* styles of the button */ }}>
+        <Text>Voltar</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+export default ComprovanteScreen;
