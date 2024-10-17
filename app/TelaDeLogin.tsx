@@ -16,6 +16,24 @@ export default function TelaDeLogin({ navigation }: TelaDeLoginProps) {
     navigation.navigate('TelaInicial');
   };
 
+  async function sendFormLogin() {
+    let response = await fetch('http://10.0.2.2:8080/login',
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          username: username,
+          password: password
+        }
+        
+        )
+      }
+    );
+  }
+
   return (
     <View style={styles.container}>
       {/* Logo ou imagem no topo */}
@@ -47,7 +65,7 @@ export default function TelaDeLogin({ navigation }: TelaDeLoginProps) {
 
       {/* Botão de login */}
       <View style={styles.buttonContainer}>
-        <Button title="ENTER" color="#007FFF" onPress={handleLogin} />
+        <Button title="ENTER" color="#007FFF" onPress={sendFormLogin} />
       </View>
     </View>
   );
@@ -85,7 +103,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#e0e0e0',
   },
   forgotPassword: {
-    width:100,
+    width:"100%",
     alignSelf: 'flex-end',
     marginRight: '10%',
     color: '#007FFF',
