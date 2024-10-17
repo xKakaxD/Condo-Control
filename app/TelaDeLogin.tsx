@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, Image, Modal } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from './App';
 
@@ -10,6 +10,8 @@ type TelaDeLoginProps = {
 export default function TelaDeLogin({ navigation }: TelaDeLoginProps) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [isVisible, setVisible] = useState(true);
+
 
   const handleLogin = () => {
     // Navega para a TelaInicial após o login
@@ -28,7 +30,7 @@ export default function TelaDeLogin({ navigation }: TelaDeLoginProps) {
           username: username,
           password: password
         }
-        
+
         )
       }
     );
@@ -37,7 +39,7 @@ export default function TelaDeLogin({ navigation }: TelaDeLoginProps) {
   return (
     <View style={styles.container}>
       {/* Logo ou imagem no topo */}
-      <Image source={require('../assets/images/logoLogin.png')} style={styles.logo} resizeMode="contain"/>
+      <Image source={require('../assets/images/logoLogin.png')} style={styles.logo} resizeMode="contain" />
 
       {/* Campo de usuário */}
       <Text style={styles.label}>USUÁRIO</Text>
@@ -63,6 +65,15 @@ export default function TelaDeLogin({ navigation }: TelaDeLoginProps) {
         <Text style={styles.forgotPassword}>Esqueci a senha</Text>
       </TouchableOpacity>
 
+      <View>
+        <Modal animationType="slide" transparent={true} visible={isVisible}>
+          <View style={styles.btnSenha}>
+            <Text style={styles.txtModal}>Usuario ou senha errada</Text>
+            <Button title="fechar" onPress={() => setVisible(false)} />
+          </View>
+        </Modal>
+      </View>
+
       {/* Botão de login */}
       <View style={styles.buttonContainer}>
         <Button title="ENTER" color="#007FFF" onPress={sendFormLogin} />
@@ -86,7 +97,7 @@ const styles = StyleSheet.create({
 
   },
   label: {
-    padding:5,
+    padding: 5,
     fontSize: 16,
     fontWeight: 'bold',
     alignSelf: 'flex-start',
@@ -103,7 +114,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#e0e0e0',
   },
   forgotPassword: {
-    width:"100%",
+    width: "100%",
     alignSelf: 'flex-end',
     marginRight: '10%',
     color: '#007FFF',
@@ -113,4 +124,20 @@ const styles = StyleSheet.create({
     width: '80%',
     borderRadius: 5,
   },
+  btnSenha: {
+    backgroundColor: "#C0C0C0",
+    margin: 20,
+    padding: 20,
+    borderRadius: 7,
+    elevation: 10,
+    flex: 3,
+    justifyContent: 'center',
+  },
+  txtModal: {
+    fontSize: 17,
+    fontWeight: "bold",
+    padding: 20,
+    backgroundColor: 'red'
+  },
+
 });
